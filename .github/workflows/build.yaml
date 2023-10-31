@@ -1,4 +1,4 @@
-name: Build and Deploy to Sandboxx
+name: Build and Deploy to Sandbox
 
 on:
   push:
