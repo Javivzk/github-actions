@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ccac8609-1e1c-440a-b3a3-6fc27e07882c" >
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="38566920-3532-45f3-8de8-014a916a08ef" file="properties\dev-secure.yaml" key="secure" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
 	<flow name="github-actionsFlow" doc:id="56b8eec6-d0cd-45d0-9e9e-e8550c7d0fb7" >
 		<http:listener doc:name="Listener" doc:id="6e5cf13d-6bc2-4825-aa36-b13eb6fdbf65" config-ref="HTTP_Listener_config" path="/test"/>
-		<set-payload value='#["It Worked"]' doc:name="Set Payload" doc:id="546ff5e7-37f5-4cba-8e5e-26c7cd11a911" />
+		<set-payload value='#["It Worked! Secured property: "]' doc:name="Set Payload" doc:id="546ff5e7-37f5-4cba-8e5e-26c7cd11a911" />
 		<logger level="INFO" doc:name="Logger" doc:id="07d8adc2-e6e4-4c86-a23b-486b597b54e9" message="#[payload]"/>
 	</flow>
 </mule>
